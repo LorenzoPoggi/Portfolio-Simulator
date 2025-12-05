@@ -18,7 +18,7 @@ oauth2 = OAuth2PasswordBearer(tokenUrl='login')
 # ------------------------------------------------------------
 
 # Encriptacion de las contraseñas
-def hash_pasword(password: str) -> str:
+def hash_password(password: str) -> str:
     return crypt.hash(password)
 
 # Verificacion de las contraseñas
@@ -67,3 +67,12 @@ async def current_user(user: User = Depends(auth_user)) -> User:
     if not user.is_active:
         raise excepciones['usuario_inactivo']
     return user 
+
+# Funcion para la busqueda de usuarios por email
+def get_user_by_email(db: Session, email: str) -> User | None:
+    # Usamos User que es el nombre de la clase del modelo
+    return db.query(User).filter(User.email == email).first()
+
+# Funcion para la busqueda de usuarios por id
+def get_user_by_id(db: Session, id: int) -> User | None:
+    return db.query(User).filter(User.id == id).first()
