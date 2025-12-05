@@ -73,3 +73,12 @@ class Portfolio_Update(BaseModel):
     quantity: Optional[int]
     buy_price: Optional[float]
     average_price: Optional[float]
+
+# ----------------------------------------------------
+# Token Schema
+# ----------------------------------------------------
+
+# Esquema del Token
+class Token(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
