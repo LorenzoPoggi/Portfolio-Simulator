@@ -1,10 +1,12 @@
-# Configuracion global del proyecto
+# config.py
 
-'''
-Variables de entorno
-JWT settings
-URL de la base de datos
-API Keys de servicios externos
-Nombre del proyecto
-Token expiración
-'''
+from passlib.context import CryptContext
+
+# ----------------------------------------------------
+# Algoritmo de Encriptación y Tocken de Acceso
+# ----------------------------------------------------
+
+ALGORITHM = "HS256"
+ACCESS_TOKEN_DURATION = 30
+SECRET_KEY = 'e2cadd35402cb270f7c256664f62b610dd9199c964a9fb616aef05f9a8ac5494'
+crypt = CryptContext(schemes="bcrypt")
