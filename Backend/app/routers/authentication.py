@@ -8,7 +8,6 @@ from core.security import *
 from core.config import *
 from database.models import *
 from schemas.schemas import *
-from typing import List
 
 # Inicializacion del Router
 router = APIRouter(tags=['Authentiacion'], prefix='/authentication')
@@ -35,3 +34,16 @@ async def register_user(user: User_Register, db: Session = Depends(get_db)):
     return db_user
 
 # Operacion para el inicio de sesión de usuarios
+@router.post('/login', response_model= User_Response, status_code= status.HTTP_202_ACCEPTED)
+async def login_user(user: User_Login, db: Session = Depends(get_db)):
+    db_user = get_user_by_email(db, email = user.email)
+    if not db_user:
+        raise excepciones['usuario_no_encontrado']
+    if not verify_password(user.password, db_user.password):
+        raise excepciones['contrasena_incorrecta']
+    access_token = generate_access_token(str(db_user.id))
+    return {
+        'access_token': access_token,
+        'token_type': 'bearer',
+        'user': User_Response.from_attributes(db_user)
+    }
