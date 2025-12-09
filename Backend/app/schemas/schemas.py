@@ -30,6 +30,11 @@ class User_Response(BaseModel):
     class Config:
         from_attributes = True 
 
+class User_Update(BaseModel):
+    fullname: Optional[str] = None
+    email: Optional[EmailStr] = None
+    password: Optional[str] = None
+
 # ----------------------------------------------------
 # Stock Schemas
 # ----------------------------------------------------
