@@ -8,7 +8,7 @@ from typing import Generator
 # ----------------------------------------------------------------
 
 # URL de la base de datos (SQLite)
-SQLALCHEMY_DATABASE_URL = "sqlite:///./app/database/sqlalchemy.db"
+SQLALCHEMY_DATABASE_URL = "sqlite:///./database/sqlalchemy.db"
  
 # Creo el motor (el puente entre Python y la Base de Datos) 
 engine = create_engine(

@@ -5,10 +5,10 @@ from fastapi.security import OAuth2PasswordBearer
 from jose import jwt, JWTError
 from sqlalchemy.orm import Session
 from datetime import datetime, timedelta
-from config import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_DURATION, crypt
+from core.config import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_DURATION, crypt
 from database.database import get_db
 from database.models.models import User
-from exceptions import excepciones
+from core.exceptions import excepciones
 
 # Sistema de Autenticacion
 oauth2 = OAuth2PasswordBearer(tokenUrl='login')

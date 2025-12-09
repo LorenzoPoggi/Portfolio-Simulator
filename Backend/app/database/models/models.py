@@ -2,7 +2,7 @@
 from sqlalchemy import Column, Integer, Float, String, Boolean, ForeignKey, Text, DateTime
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
-from app.database.database import Base
+from database.database import Base
 
 # ----------------------------------------------------------------
 # Tablas de la Base de Datos
