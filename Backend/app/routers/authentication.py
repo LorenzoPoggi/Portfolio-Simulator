@@ -2,7 +2,7 @@
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from database.database import Base, get_db, engine
+from database.database import get_db
 from core.exceptions import excepciones
 from core.security import *
 from core.config import *
