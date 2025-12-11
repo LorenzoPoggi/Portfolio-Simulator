@@ -1,29 +1,31 @@
 # api_external.py
 
-import requests
 import os
 import httpx 
 from tenacity import retry, stop_after_attempt, wait_exponential
 
 # ----------------------------
-# Conexión con la API externa
+# Variables de Entonro (.env)
 # ----------------------------
 
-# Direccion de la API externa de finanzas
-url = "https://real-time-finance-data.p.rapidapi.com/search"
+# Varaibles extraidas del .env 
+API_KEY = os.getenv('FINANCE_API_KEY')
+API_HOST = os.getenv('FINANCE_API_HOST')
+FINANCE_BASE_URL = os.getenv('FINANCE_BASE_URL')
+SEARCH_URL = f'{FINANCE_BASE_URL}/search'
 
-# Lista de peticion de stock por una query 
-querystring = {"query":"Apple","language":"en"}
-
-# Metadatos para una peticion HTTP
+# Headers
 headers = {
-	"x-rapidapi-key": "191be09c6emsh2e5d3a9a042c4b6p1b9706jsn7d36f3435aef",
-	"x-rapidapi-host": "real-time-finance-data.p.rapidapi.com"
+    "x-rapidapi-key": API_KEY,
+    "x-rapidapi-host": API_HOST
 }
 
-# --------------------------
-# Cliente HTTP asincrónico
-# --------------------------
+# Lista de peticion de stock por una query 
+querystring = {}
+
+# ----------------------------
+# Conexión con la API externa
+# ----------------------------
 
 # Creamos una única instancia de AsyncClient que reutilizaremos
 http_client = httpx.AsyncClient(timeout=10.0)
