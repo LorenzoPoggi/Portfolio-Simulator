@@ -29,9 +29,16 @@ http_client = httpx.AsyncClient(timeout=10.0)
 
 # Endpoint de reintentos: intenta hasta 3 veces con backoff exponencial
 @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1))
-async def fetch_json(url: str) -> dict:
-    # Peticion HTTP GET a la URl con parametros dados
-    response = await http_client.get(url, headers=headers, params=querystring)
+async def fetch_json(url: str, params: dict):
+    response = await http_client.get(url, params=params, headers=headers)
     response.raise_for_status()  
-    # Devuelve el contenido JSON de la respuesta
     return response.json()
+
+# Endpoint para la busqueda de stock
+async def busqueda_stock(query: str):
+    params = {
+        "query": query,
+        "language": "en"
+    }
+    response = await fetch_json(SEARCH_URL, params)
+    return response
