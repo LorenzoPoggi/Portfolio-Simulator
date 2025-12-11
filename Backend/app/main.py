@@ -3,7 +3,6 @@
 from fastapi import FastAPI
 from sqlalchemy.orm import Session
 from dotenv import load_dotenv
-from services.api_external import *
 from database.database import Base, engine, get_db
 from routers.authentication import router as router_authentication
 from routers.user_profile import router as router_user_profile

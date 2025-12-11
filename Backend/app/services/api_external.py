@@ -20,9 +20,6 @@ headers = {
     "x-rapidapi-host": API_HOST
 }
 
-# Lista de peticion de stock por una query 
-querystring = {}
-
 # ----------------------------
 # Conexión con la API externa
 # ----------------------------
