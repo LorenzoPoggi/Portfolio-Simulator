@@ -24,7 +24,7 @@ class User_Response(BaseModel):
     id: int
     fullname: str
     email: EmailStr
-    is_active: Optional[str]
+    is_active: bool
     created_at: datetime
     # Clase para convertir de objeto sqlalchemy a este modelo, FastAPI lo interpreta 
     class Config:
@@ -102,7 +102,13 @@ class Portfolio_Update(BaseModel):
 # Token Schema
 # ----------------------------------------------------
 
-# Esquema del Token
+# Esquema del tipo de Token
 class Token(BaseModel):
     access_token: str
     token_type: str = "bearer"
+
+# Esquema para el Tocken de Respuesta del Login
+class Login_Response(BaseModel):
+    access_token: str
+    token_type: str
+    user: User_Response

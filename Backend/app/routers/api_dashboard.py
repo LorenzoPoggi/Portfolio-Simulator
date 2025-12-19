@@ -4,9 +4,10 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from database.database import get_db
 from core.exceptions import excepciones
-from core.security import *
-from database.models import *
-from services.api_external import *
+from database.models.models import Stock, Price
+from services.api_external import busqueda_stock
+from schemas.schemas import External_Stock, Internal_Stock
+from datetime import datetime
 
 # Inicializacion del Router
 router = APIRouter(tags=['Api Dashboard'], prefix='/mercado')

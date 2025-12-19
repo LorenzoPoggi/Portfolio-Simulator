@@ -34,7 +34,7 @@ async def register_user(user: User_Register, db: Session = Depends(get_db)):
     return db_user
 
 # Operacion para el inicio de sesión de usuarios
-@router.post('/login', response_model= User_Response, status_code= status.HTTP_202_ACCEPTED)
+@router.post('/login', response_model= Login_Response, status_code= status.HTTP_202_ACCEPTED)
 async def login_user(user: User_Login, db: Session = Depends(get_db)):
     db_user = get_user_by_email(db, email = user.email)
     if not db_user:
@@ -45,5 +45,5 @@ async def login_user(user: User_Login, db: Session = Depends(get_db)):
     return {
         'access_token': access_token,
         'token_type': 'bearer',
-        'user': User_Response.from_attributes(db_user)
+        'user': db_user
     }
