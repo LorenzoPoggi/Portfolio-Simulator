@@ -40,15 +40,34 @@ class User_Update(BaseModel):
 # ----------------------------------------------------
 
 # Esquema de devolucion del stock 
-class Stock_Response(BaseModel):
+class Internal_Stock(BaseModel):
     id: Optional[int]
-    name: str
     symbol: str
+    name: str
+    exchange: str 
+    currency: str
     sector: str
-    price: float
-    updated_at: datetime
-    currency: str 
+    # Clase para convertir de objeto sqlalchemy a este modelo, FastAPI lo interpreta 
+    class Config: 
+        from_attributes = True 
 
+# Esquema de request de la API externa
+class External_Stock(BaseModel):
+    symbol: str
+    name: str
+    type: str
+    price: float
+    change: float
+    change_percent: float
+    previous_close: float
+    last_update_utc: datetime
+    country_code: str
+    exchange: str
+    exchange_open: datetime
+    exchange_close: datetime
+    timezone: str
+    currency: str
+    
 # ----------------------------------------------------
 # Portfolio Schemas
 # ----------------------------------------------------
@@ -68,7 +87,7 @@ class Portfolio_View(BaseModel):
     total_invested: float
     buy_date: datetime
     average_price: float
-    stock: Optional[Stock_Response]
+    stock: Optional[Internal_Stock]
     # Clase para convertir de objeto sqlalchemy a este modelo, FastAPI lo interpreta 
     class Config:
         from_attributes = True 

@@ -27,15 +27,29 @@ class Stock(Base):
     # ID unico asignado a cada activo
     id = Column(Integer, primary_key=True, index=True)
     # Informacion de cada activo
+    symbol = Column(String, unique=True, index=True)
     name = Column(String, unique=True)
-    symbol = Column(String, unique=True)
-    sector = Column(String) # OPTIONAL
-    # Parametros de cada activo
-    price = Column(Float) 
-    updated_at = Column(DateTime(timezone=True), server_default=func.now())
+    exchange = Column(String)
     currency = Column(String, default='USD')
+    sector = Column(String, nullable=True)
+    # Parametros de cada activo
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
     # Relacion: El activo pertenece al portfolio de cada usuario
     portfolio = relationship('User_Portfolio', back_populates='stock')
+
+class Price(Base):
+    __tablename__ = 'Price'
+    # ID unico asignado a casa precio de los activos
+    id = Column(Integer, primary_key=True, index=True)
+    # Informacion de volatilidad de los precios
+    stock_id = Column(Integer, ForeignKey('Stock.id'))
+    price = Column(Float)
+    change = Column(Float)
+    change_percent = Column(Float)
+    # Parametros de los precios
+    timestamp = Column(DateTime(timezone=True))
+    # Relacion: El precio pertenece a un Stock especifico
+    stock = relationship("Stock")
 
 class User_Portfolio(Base):
     __tablename__ = "User_Portfolio"
