@@ -10,7 +10,7 @@ from database.models import *
 from schemas.schemas import *
 
 # Inicializacion del Router
-router = APIRouter(tags=['Authentiacion'], prefix='/authentication')
+router = APIRouter(tags=['Authentication'], prefix='/authentication')
 
 # ----------------------------------------------------
 # Operaciones CRUD para Register y Login

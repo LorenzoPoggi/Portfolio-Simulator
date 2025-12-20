@@ -11,7 +11,7 @@ from database.models.models import User
 from core.exceptions import excepciones
 
 # Sistema de Autenticacion
-oauth2 = OAuth2PasswordBearer(tokenUrl='login')
+oauth2 = OAuth2PasswordBearer(tokenUrl="/authentication/login")
 
 # ------------------------------------------------------------
 # Sistema de Hashing de Contraseñas
@@ -57,7 +57,7 @@ def decode_access_token(access_token: str) -> str:
 # Dependencia que busca el usuario en la base de datos
 async def auth_user(access_token: str = Depends(oauth2), db: Session = Depends(get_db)) -> User:
     subject = decode_access_token(access_token)
-    user = db.query(User).filter(User.email == subject).first()
+    user = db.query(User).filter(User.id == int(subject)).first()
     if not user:
         raise excepciones['usuario_no_encontrado']
     return user 
