@@ -36,3 +36,15 @@ class External_Stock(BaseModel):
     exchange_close: datetime
     timezone: str
     currency: str
+
+# Esquema de compra de stock (entrada)
+class Stock_Purchase_Request(BaseModel):
+    quantity: int
+
+# Esquema de compra de stock (salida)
+class Stock_Purchase_Response(BaseModel):
+    symbol: str
+    quantity: int
+    price: float
+    total_spent: float
+    currency: str

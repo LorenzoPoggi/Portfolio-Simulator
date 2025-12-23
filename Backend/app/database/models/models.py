@@ -58,6 +58,7 @@ class User_Portfolio(Base):
     # Caracterisiticas personales del portfolio
     user_id = Column(Integer, ForeignKey('Usuarios.id'))
     stock_id = Column(Integer, ForeignKey('Stock.id'))
+    symbol = Column(String)
     # Caracteristicas generales del portfolio
     quantity = Column(Integer)
     buy_price = Column(Float)
