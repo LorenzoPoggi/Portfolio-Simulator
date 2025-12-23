@@ -1,8 +1,2 @@
-# Inversiones de cada usuario
+# user_portfolio.py
 
-'''
-Compra simulada de acciones
-Ver portafolio
-Eliminacion de acciones
-Calculos
-'''

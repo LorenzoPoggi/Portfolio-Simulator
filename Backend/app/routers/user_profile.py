@@ -7,7 +7,7 @@ from core.exceptions import excepciones
 from core.security import *
 from core.config import *
 from database.models import *
-from schemas.schemas import *
+from schemas.user import *
 
 # Inicializacion del Router
 router = APIRouter(tags=['User-Profile'], prefix='/profile')

@@ -13,6 +13,7 @@ API_KEY = os.getenv('FINANCE_API_KEY')
 API_HOST = os.getenv('FINANCE_API_HOST')
 FINANCE_BASE_URL = os.getenv('FINANCE_BASE_URL')
 SEARCH_URL = f'{FINANCE_BASE_URL}/search'
+QUOTE_URL = f'{FINANCE_BASE_URL}/stock-quote'
 
 # Headers
 headers = {
@@ -41,4 +42,13 @@ async def busqueda_stock(query: str):
         "language": "en"
     }
     response = await fetch_json(SEARCH_URL, params)
+    return response
+
+# Endpoint para la busqueda de un simbolo
+async def busqueda_symbol(symbol: str):
+    params = {
+        "query": symbol,
+        "lenguage": "en"
+    }
+    response = await fetch_json(QUOTE_URL, params)
     return response

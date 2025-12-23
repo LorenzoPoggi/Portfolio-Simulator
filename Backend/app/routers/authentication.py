@@ -7,7 +7,8 @@ from core.exceptions import excepciones
 from core.security import *
 from core.config import *
 from database.models import *
-from schemas.schemas import *
+from schemas.user import *
+from schemas.token import Login_Response
 
 # Inicializacion del Router
 router = APIRouter(tags=['Authentication'], prefix='/authentication')
