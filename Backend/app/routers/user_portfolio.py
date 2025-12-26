@@ -11,17 +11,21 @@ import httpx
 router = APIRouter(tags=['Portfolio'], prefix='/miportfolio')
 
 # Operacion para visualizar mi Portfolio
+@router.get('/', response_model= Stock_Purchase_Response, status_code= status.HTTP_200_OK)
+async def view_my_portfolio(user: User = Depends (current_user), db: Session = Depends (get_db)):
+    portfolio = db.query(User_Portfolio).filter(User_Portfolio.user_id == user.id).all()
+    return portfolio
 
 # Operacion para "comprar" una accion y guardarla en el Portfolio
 @router.post('/stock/{symbol}', response_model= Stock_Purchase_Response, status_code= status.HTTP_201_CREATED)
 async def buy_stock (symbol: str, purchase: Stock_Purchase_Request, db: Session = Depends(get_db), user: User = Depends(current_user)):
     if purchase.quantity <= 0 or purchase.quantity > 5:
         raise HTTPException(status_code= status.HTTP_400_BAD_REQUEST,
-                            detail= 'Indique una cantidad entre 1 y 5 para su compra')
+                            detail= 'Indique una cantidad entre 1 y 5 para su compra.')
     data = await busqueda_symbol(symbol)
     if not data or 'data' not in data or not data['data']['stock']:
         raise HTTPException(status_code= status.HTTP_404_NOT_FOUND,
-                                detail="Accion no encontrada")
+                                detail="Accion no encontrada.")
     stock_data = data['data']['stock'][0]
     price = stock_data['price']
     currency = stock_data['currency']
@@ -45,3 +49,12 @@ async def buy_stock (symbol: str, purchase: Stock_Purchase_Request, db: Session 
     )
 
 # Operacion para "vender" una accion de mi Portfolio
+@router.delete('/{symbol}', status_code= status.HTTP_204_NO_CONTENT)
+async def delete_stock(symbol: str, user: User = Depends(current_user), db: Session = Depends(get_db)):
+    stock = db.query(User_Portfolio).filter(User_Portfolio.symbol == symbol, User_Portfolio.user_id == user.id).first()
+    if not stock:
+        raise HTTPException(status_code= status.HTTP_404_NOT_FOUND,
+                            detail= 'Accion no encontrada en el Portfolio.')
+    db.delete(stock)
+    db.commit()
+    return 'Accion vendida con éxito, puede seguir comprando.'
