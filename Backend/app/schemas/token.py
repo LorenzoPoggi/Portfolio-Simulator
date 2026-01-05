@@ -1,9 +1,7 @@
 # token.py
 
-from pydantic import BaseModel, EmailStr 
-from typing import Optional, List
-from datetime import datetime 
-from user import User_Response
+from pydantic import BaseModel
+from schemas.user import User_Response
 
 # ----------------------------------------------------
 # Token Schema

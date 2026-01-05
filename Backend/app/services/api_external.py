@@ -47,8 +47,8 @@ async def busqueda_stock(query: str):
 # Endpoint para la busqueda de un simbolo
 async def busqueda_symbol(symbol: str):
     params = {
-        "query": symbol,
-        "lenguage": "en"
+        "symbol": symbol,
+        "language": "en"
     }
     response = await fetch_json(QUOTE_URL, params)
     return response

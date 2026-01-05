@@ -10,7 +10,7 @@ from database.models import *
 from schemas.user import *
 
 # Inicializacion del Router
-router = APIRouter(tags=['User-Profile'], prefix='/profile')
+router = APIRouter(tags=['User Profile'], prefix='/profile')
 
 # ----------------------------------------------------
 # Operaciones CRUD para el Perfil de cada Usuario

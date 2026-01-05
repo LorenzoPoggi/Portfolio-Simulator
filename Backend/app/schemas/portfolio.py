@@ -1,9 +1,9 @@
 # portfolio.py
 
-from pydantic import BaseModel, EmailStr 
-from typing import Optional, List
+from pydantic import BaseModel 
+from typing import Optional
 from datetime import datetime 
-from stock import Internal_Stock
+from schemas.stock import Internal_Stock
 
 # ----------------------------------------------------
 # Portfolio Schemas

@@ -1,7 +1,7 @@
 # user.py
 
 from pydantic import BaseModel, EmailStr 
-from typing import Optional, List
+from typing import Optional
 from datetime import datetime 
 
 # ----------------------------------------------------

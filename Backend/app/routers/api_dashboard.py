@@ -5,7 +5,7 @@ from database.models.models import *
 from core.security import *
 from services.api_external import *
 from services.api_external import busqueda_stock, busqueda_symbol
-from schemas.stock import External_Stock
+from schemas.stock import External_Stock, External_Symbol
 import httpx 
 
 # Inicializacion del Router
@@ -30,7 +30,7 @@ async def search_stock(query: str, user: User = Depends(current_user)):
                             detail="Fallo de conexión a Real-Time Finance")
     
 # Operacion para obtener informacion de una accion en especifico
-@router.get("/stock/{symbol}", response_model= External_Stock, status_code= status.HTTP_200_OK)
+@router.get("/stock/{symbol}", response_model= External_Symbol, status_code= status.HTTP_200_OK)
 async def get_especific_symbol(symbol: str, user: User = Depends(current_user)):
     try: 
         data = await busqueda_symbol(symbol)

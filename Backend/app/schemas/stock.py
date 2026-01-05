@@ -1,7 +1,7 @@
 # stock.py
 
-from pydantic import BaseModel, EmailStr 
-from typing import Optional, List
+from pydantic import BaseModel 
+from typing import Optional
 from datetime import datetime 
 
 # ----------------------------------------------------
@@ -20,7 +20,7 @@ class Internal_Stock(BaseModel):
     class Config: 
         from_attributes = True 
 
-# Esquema de request de la API externa
+# Esquema de request de la API externa (stock)
 class External_Stock(BaseModel):
     symbol: str
     name: str
@@ -36,6 +36,24 @@ class External_Stock(BaseModel):
     exchange_close: datetime
     timezone: str
     currency: str
+
+# Esquema de request de la API externa (symbol)
+class External_Symbol(BaseModel):
+    symbol: str
+    name: str
+    type: str
+    price: float
+    open: float
+    high: float
+    low: float
+    volume: int
+    previous_close: float
+    change: float
+    change_percent: float
+    pre_or_post_market: float
+    pre_or_post_market_change: float 
+    pre_or_post_market_change_percent: float
+    last_update_utc: datetime
 
 # Esquema de compra de stock (entrada)
 class Stock_Purchase_Request(BaseModel):
