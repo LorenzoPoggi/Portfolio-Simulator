@@ -1,8 +1,6 @@
 # config.py
 
 from passlib.context import CryptContext
-from pydantic import BaseModel
-from typing import Optional
 
 # ----------------------------------------------------
 # Algoritmo de Encriptación y Tocken de Acceso
