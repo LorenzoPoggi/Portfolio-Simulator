@@ -1,6 +1,6 @@
 # authentication.py
 
-from fastapi import APIRouter, Depends, status, Request, Form
+from fastapi import APIRouter, Depends, status, Request, Form, Response
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -73,9 +73,13 @@ async def register_html(request: Request):
 
 # Adaptador entre HTML y API del login 
 @router.post('/login-form')
-async def login_form(request: Request, email: str = Form(...), password: str = Form(...), db: Session = Depends(get_db)):
+async def login_form(response: Response, request: Request, email: str = Form(...), password: str = Form(...), db: Session = Depends(get_db)):
     user_data = User_Login(email=email, password=password)
-    await login_user(user=user_data, db=db)
+    result = await login_user(user=user_data, db=db)
+    access_token = result['access_token']
+    response.set_cookie(
+        key= 'access_token', value= access_token, httponly= True, samesite= 'lax'
+    )
     return RedirectResponse(url='/profile/me', status_code=303)
 
 # Operacion para renderizar el inicio de sesion a una interfaz
