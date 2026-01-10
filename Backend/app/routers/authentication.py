@@ -54,9 +54,9 @@ async def login_user(user: User_Login, db: Session = Depends(get_db)):
         'user': db_user
     }
 
-# -------------------------------------------------------
-# Operaciones para la INTERFAZ del Register y  del Login
-# -------------------------------------------------------
+# -----------------------------------------------------------
+# Operaciones para los ADAPTADORES del Register y  del Login
+# -----------------------------------------------------------
 
 # Adaptador entre HTML y API del registro
 @router.post('/register-form')
@@ -64,12 +64,6 @@ async def register_form(request: Request, email: str = Form(...), password: str 
     user_data = User_Register(email=email, password=password, fullname=fullname)
     await register_user(user=user_data, db=db)
     return RedirectResponse(url='/authentication/login', status_code=303)
-
-# Operacion para renderizar el registro a una interfaz
-@router.get('/register', response_class= HTMLResponse)
-async def register_html(request: Request):
-    return templates.TemplateResponse(
-        request= request, name= 'authentication.html')
 
 # Adaptador entre HTML y API del login 
 @router.post('/login-form')
@@ -82,8 +76,18 @@ async def login_form(response: Response, request: Request, email: str = Form(...
     )
     return RedirectResponse(url='/profile/me', status_code=303)
 
+# ---------------------------------------------------------
+# Operaciones para las INTERFACES del Register y  del Login
+# ---------------------------------------------------------
+
+# Operacion para renderizar el registro a una interfaz
+@router.get('/register', response_class= HTMLResponse)
+async def register_html(request: Request):
+    return templates.TemplateResponse(
+        request= request, name= 'register.html')
+
 # Operacion para renderizar el inicio de sesion a una interfaz
 @router.get('/login', response_class= HTMLResponse)
 async def login_html(request: Request):
     return templates.TemplateResponse(
-        request= request, name= 'authentication.html')
+        request= request, name= 'login.html')
