@@ -19,7 +19,7 @@ router.mount("/static", StaticFiles(directory="Frontend/static", html=True), nam
 templates = Jinja2Templates(directory='Frontend/templates')
 
 # ----------------------------------------------------
-# Operaciones CRUD para Register y Login
+# Operaciones con la LOGICA del Register y del Login
 # ----------------------------------------------------
 
 # Operacion para registrar nuevos usuarios
@@ -54,15 +54,29 @@ async def login_user(user: User_Login, db: Session = Depends(get_db)):
         'user': db_user
     }
 
-# ----------------------------------------------------
-# Operaciones INTERFAZ para Register y Login
-# ----------------------------------------------------
+# -------------------------------------------------------
+# Operaciones para la INTERFAZ del Register y  del Login
+# -------------------------------------------------------
+
+# Adaptador entre HTML y API del registro
+@router.post('/register-form')
+async def register_form(request: Request, email: str = Form(...), password: str = Form(...), fullname: str = Form(...), db: Session = Depends(get_db)):
+    user_data = User_Register(email=email, password=password, fullname=fullname)
+    await register_user(user=user_data, db=db)
+    return RedirectResponse(url='/authentication/login', status_code=303)
 
 # Operacion para renderizar el registro a una interfaz
 @router.get('/register', response_class= HTMLResponse)
 async def register_html(request: Request):
     return templates.TemplateResponse(
         request= request, name= 'authentication.html')
+
+# Adaptador entre HTML y API del login 
+@router.post('/login-form')
+async def login_form(request: Request, email: str = Form(...), password: str = Form(...), db: Session = Depends(get_db)):
+    user_data = User_Login(email=email, password=password)
+    await login_user(user=user_data, db=db)
+    return RedirectResponse(url='/profile/me', status_code=303)
 
 # Operacion para renderizar el inicio de sesion a una interfaz
 @router.get('/login', response_class= HTMLResponse)
