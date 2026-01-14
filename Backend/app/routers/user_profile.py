@@ -1,6 +1,9 @@
 # user_profile.py 
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, status, Request, Form
+from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from database.database import get_db
 from core.exceptions import excepciones
@@ -11,10 +14,12 @@ from schemas.user import *
 
 # Inicializacion del Router
 router = APIRouter(tags=['User Profile'], prefix='/profile')
+router.mount("/static", StaticFiles(directory="Frontend/static", html=True), name="static")
+templates = Jinja2Templates(directory='Frontend/templates')
 
-# ----------------------------------------------------
-# Operaciones CRUD para el Perfil de cada Usuario
-# ----------------------------------------------------
+# ---------------------------------------------------------
+# Operaciones con la LOGICA para el Perfil de cada Usuario
+# ---------------------------------------------------------
 
 # Operacion para la visualizacion de todos los usuarios 
 @router.get('/users', response_model=list[User_Response], status_code= status.HTTP_200_OK)
@@ -48,3 +53,33 @@ async def delete_my_account(user: User = Depends(current_user), db: Session = De
     db.delete(user)
     db.commit()
     return {}
+
+# ------------------------------------------------------------
+# Operaciones para los ADAPTADORES del Perfil de cada Usuario
+# ------------------------------------------------------------
+
+# Adaptador entre HTML y API de la actualizacion de datos
+@router.post('/update-me-form')
+async def update_my_user_form(request: Request, 
+                              email: str = Form(...), password: str = Form(None), fullname: str = Form(...), 
+                              user: User = Depends(current_user),db: Session = Depends(get_db)):
+    update_data = User_Update(email=email, password=password, fullname=fullname)
+    await update_my_user(user=user, update_data=update_data, db=db)
+    return RedirectResponse(url='/profile/me', status_code=303)
+
+# Adaptador entre HTML y API de la eliminacion de usuario
+@router.post('/delete-me-form')
+async def delete_my_user_form(reques: Request, 
+                              user: User = Depends(current_user), db: Session = Depends(get_db)):
+    await delete_my_account(user=user, db=db)
+    return RedirectResponse(url='/authentication/login', status_code=303)
+
+# -----------------------------------------------------------
+# Operaciones para las INTERFACES del Perfil de cada Usuario
+# -----------------------------------------------------------
+
+# Operacion para renderizar al perfil del usuario
+@router.get('/me/personal-data', response_class= HTMLResponse)
+async def view_my_user_html(request: Request):
+    return templates.TemplateResponse(
+        request= request, name= 'user_profile.html')
