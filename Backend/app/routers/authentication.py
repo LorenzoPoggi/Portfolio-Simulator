@@ -77,11 +77,17 @@ async def register_form(request: Request, email: str = Form(...), password: str 
 async def login_form(response: Response, request: Request, email: str = Form(...), password: str = Form(...), db: Session = Depends(get_db)):
     user_data = User_Login(email=email, password=password)
     result = await login_user(user=user_data, db=db)
+    db_user = get_user_by_email(db, email=email)
+    if not db_user:
+        return RedirectResponse("/authentication/login?error=user_not_found", status_code=303)
+    if not verify_password(password, db_user.password):
+        return RedirectResponse("/authentication/login?error=wrong_password", status_code=303)
     access_token = result['access_token']
-    response.set_cookie(
+    redirect = RedirectResponse(url='/profile/me/personal-data', status_code=303)
+    redirect.set_cookie(
         key= 'access_token', value= access_token, httponly= True, samesite= 'lax'
     )
-    return RedirectResponse(url='/profile/me/personal-data', status_code=303)
+    return redirect
 
 # Adaptador entre HTML Y API del logout 
 @router.post('/logout-form')

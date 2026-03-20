@@ -1,6 +1,6 @@
 # security.py
 
-from fastapi import Depends
+from fastapi import Depends, Request
 from fastapi.security import OAuth2PasswordBearer
 from jose import jwt, JWTError
 from sqlalchemy.orm import Session
@@ -55,12 +55,15 @@ def decode_access_token(access_token: str) -> str:
 # ------------------------------------------------------------
 
 # Dependencia que busca el usuario en la base de datos
-async def auth_user(access_token: str = Depends(oauth2), db: Session = Depends(get_db)) -> User:
+async def auth_user(request: Request, db: Session = Depends(get_db)) -> User:
+    access_token = request.cookies.get("access_token")
+    if not access_token:
+        raise excepciones['no_autorizado']
     subject = decode_access_token(access_token)
     user = db.query(User).filter(User.id == int(subject)).first()
     if not user:
         raise excepciones['usuario_no_encontrado']
-    return user 
+    return user
 
 # Criterio de Dependencia de actividad del usuario
 async def current_user(user: User = Depends(auth_user)) -> User:
