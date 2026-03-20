@@ -54,6 +54,13 @@ async def login_user(user: User_Login, db: Session = Depends(get_db)):
         'user': db_user
     }
 
+# Operacion para el cierre de sesión de usuarios
+@router.get("/logout")
+async def logout():
+    response = RedirectResponse("/authentication/login")
+    response.delete_cookie("access_token")
+    return response
+
 # -----------------------------------------------------------
 # Operaciones para los ADAPTADORES del Register y  del Login
 # -----------------------------------------------------------
@@ -74,7 +81,14 @@ async def login_form(response: Response, request: Request, email: str = Form(...
     response.set_cookie(
         key= 'access_token', value= access_token, httponly= True, samesite= 'lax'
     )
-    return RedirectResponse(url='/profile/me', status_code=303)
+    return RedirectResponse(url='/profile/me/personal-data', status_code=303)
+
+# Adaptador entre HTML Y API del logout 
+@router.post('/logout-form')
+async def logout_form():
+    response = RedirectResponse("/authentication/login", status_code=303)
+    response.delete_cookie("access_token")
+    return response
 
 # ---------------------------------------------------------
 # Operaciones para las INTERFACES del Register y  del Login

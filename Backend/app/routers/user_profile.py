@@ -80,6 +80,11 @@ async def delete_my_user_form(reques: Request,
 
 # Operacion para renderizar al perfil del usuario
 @router.get('/me/personal-data', response_class= HTMLResponse)
-async def view_my_user_html(request: Request):
+async def view_my_user_html(request: Request, user: User = Depends(current_user)):
     return templates.TemplateResponse(
-        request= request, name= 'user_profile.html')
+    "user_profile.html",
+    {
+        "request": request,
+        "user": user
+    }
+)

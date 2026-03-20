@@ -1,11 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <title>User Profile</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
+
 <body>
-    
+    <div class="Personal-Data">
+        <h1>Personal Data</h1>
+        <div class="Personal-Information">
+            <p>User: {{ user.fullname }} </p>
+            <p>Email: {{ user.email }} </p>
+        </div>
+    </div>
+
+    <div class="Actions">
+        <h2>Update your information</h2>
+        <form action="/profile/update-me-form" method="post">
+            <input type="text" name="fullname" value="{{ user.fullname }}" required>
+            <input type="email" name="email" value="{{ user.email }}" required>
+            <input type="password" name="password" placeholder="New password (optional)">
+            <button type="submit">Update Account</button>
+        </form>
+
+        <h2>Delete your account</h2>
+        <form action="/profile/delete-me-form" method="post">
+            <button type="submit">Delete Account</button>
+        </form>
+
+        <h2>Logout</h2>
+        <form action="/authentication/logout-form" method="post">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
 </body>
+
 </html>
