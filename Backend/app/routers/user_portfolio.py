@@ -32,14 +32,14 @@ async def buy_stock (symbol: str, purchase: Stock_Purchase_Request, db: Session 
         raise HTTPException(status_code= status.HTTP_400_BAD_REQUEST,
                             detail= 'Indique una cantidad entre 1 y 5 para su compra.')
     data = await busqueda_symbol(symbol)
-    if not data or "data" not in data:
+    if not data or 'data' not in data:
         raise HTTPException(status_code= status.HTTP_404_NOT_FOUND,
-                            detail="Accion no encontrada.")
-    symbol_data = data["data"]
+                            detail='Accion no encontrada.')
+    symbol_data = data['data']
     price = symbol_data.get('price')
     if price is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail="Precio no disponible para la acción.")
+                            detail='Precio no disponible para la acción.')
     currency = symbol_data.get('currency', 'USD')
     total_spent = price * purchase.quantity
     portfolio_entry = User_Portfolio(

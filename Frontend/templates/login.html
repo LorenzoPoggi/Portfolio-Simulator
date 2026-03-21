@@ -11,12 +11,22 @@
 <body>
     <div class="Login">
         <h1 class="login-title">Welcome back!</h1>
+
         {% if request.query_params.get("error") == "user_not_found" %}
             <p style="color: red;">User doesn't exist!</p>
         {% endif %}
         {% if request.query_params.get("error") == "wrong_password" %}
             <p style="color: red;">Incorrect Password, try again!</p>
         {% endif %}
+
+        {% if request.query_params.get("success") == "deleted" %}
+            <p style="color:green;">Account deleted successfully</p>
+        {% endif %}
+
+        {% if request.query_params.get("success") == "registered" %}
+            <p style="color:green;">Account created successfully</p>
+        {% endif %}
+
         <form action="/authentication/login-form" method="post">
             <input type="email" name="email" placeholder="Email" required>
             <input type="password" name="password" placeholder="Password" required>

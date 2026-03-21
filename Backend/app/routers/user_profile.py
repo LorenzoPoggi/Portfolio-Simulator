@@ -14,7 +14,7 @@ from schemas.user import *
 
 # Inicializacion del Router
 router = APIRouter(tags=['User Profile'], prefix='/profile')
-router.mount("/static", StaticFiles(directory="../../Frontend/static/css", html=True), name="static")
+router.mount("/static", StaticFiles(directory='../../Frontend/styles', html=True), name="static")
 templates = Jinja2Templates(directory='../../Frontend/templates')
 
 # ---------------------------------------------------------
@@ -65,14 +65,14 @@ async def update_my_user_form(request: Request,
                               user: User = Depends(current_user),db: Session = Depends(get_db)):
     update_data = User_Update(email=email, password=password, fullname=fullname)
     await update_my_user(user=user, update_data=update_data, db=db)
-    return RedirectResponse(url='/profile/me', status_code=303)
+    return RedirectResponse('/profile/me/personal-data?success=updated', status_code=303)
 
 # Adaptador entre HTML y API de la eliminacion de usuario
 @router.post('/delete-me-form')
 async def delete_my_user_form(reques: Request, 
                               user: User = Depends(current_user), db: Session = Depends(get_db)):
     await delete_my_account(user=user, db=db)
-    return RedirectResponse(url='/authentication/login', status_code=303)
+    return RedirectResponse('/authentication/login?success=deleted', status_code=303)
 
 # -----------------------------------------------------------
 # Operaciones para las INTERFACES del Perfil de cada Usuario
@@ -82,9 +82,9 @@ async def delete_my_user_form(reques: Request,
 @router.get('/me/personal-data', response_class= HTMLResponse)
 async def view_my_user_html(request: Request, user: User = Depends(current_user)):
     return templates.TemplateResponse(
-    "user_profile.html",
+    'user_profile.html',
     {
-        "request": request,
-        "user": user
+        'request': request,
+        'user': user
     }
 )

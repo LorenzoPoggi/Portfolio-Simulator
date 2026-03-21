@@ -19,6 +19,11 @@
 
     <div class="Actions">
         <h2>Update your information</h2>
+
+        {% if request.query_params.get("success") == "updated" %}
+            <p style="color:green;">Data updated successfully</p>
+        {% endif %}
+
         <form action="/profile/update-me-form" method="post">
             <input type="text" name="fullname" value="{{ user.fullname }}" required>
             <input type="email" name="email" value="{{ user.email }}" required>
