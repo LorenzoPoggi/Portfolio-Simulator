@@ -16,7 +16,7 @@ from schemas.token import Login_Response
 # Inicializacion del Router y Templates
 router = APIRouter(tags=['Authentication'], prefix='/authentication')
 router.mount("/static", StaticFiles(directory='../../Frontend/styles', html=True), name="static")
-templates = Jinja2Templates(directory='../../Frontend/templates')
+templates = Jinja2Templates(directory='../../Frontend/templates/authentication_templates')
 
 # ----------------------------------------------------
 # Operaciones con la LOGICA del Register y del Login

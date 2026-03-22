@@ -1,6 +1,9 @@
 # api_dashboard.py 
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, HTTPException, Depends, status, Request, Form, Response
+from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 from database.models.models import *
 from core.security import *
 from services.api_external import *
@@ -10,6 +13,8 @@ import httpx
 
 # Inicializacion del Router
 router = APIRouter(tags=['Api Dashboard'], prefix='/mercado')
+router.mount("/static", StaticFiles(directory='../../Frontend/styles', html=True), name="static")
+templates = Jinja2Templates(directory='../../Frontend/templates/dashboard_templates')
 
 # ----------------------------------------------------
 # Operaciones CRUD para las Cotizaciones del mercado
@@ -45,3 +50,19 @@ async def get_especific_symbol(symbol: str, user: User = Depends(current_user)):
         # Errores de conexión / timeout
         raise HTTPException(status_code=502,
                             detail='Fallo de conexión a Real-Time Finance')
+    
+# -----------------------------------------------------------------
+# Operaciones para los ADAPTADORES de las Cotizaciones del mercado
+# -----------------------------------------------------------------
+
+# Adaptador entre HTML y API de las acciones extraidas
+
+# Adaptador entre HTML y API de la informacion de una accion en especifico 
+
+# ----------------------------------------------------------------
+# Operaciones para las INTERFACES de las Cotizaciones del mercado
+# ----------------------------------------------------------------
+
+# Operacion para renderizar las acciones a una interfaz
+
+# Operacion para renderizar una accion en especifico a una interfaz 

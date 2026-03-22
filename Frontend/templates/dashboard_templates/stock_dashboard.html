@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Stock Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div class="navbar">
+        <h1>Market Dashboard</h1>
+        <a href="/profile/me/personal-data">
+            <button>My Profile</button>
+        </a>
+    </div>
+
+    <div class="search-section">
+        <h2>Search for a stock</h2>
+        <form action="/mercado/search-form" method="post">
+            <input type="text" name="query" placeholder="Enter stock" required>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <div class="results-section">
+        <h2>Results</h2>
+        {% if stocks %}
+            <ul>
+                {% for stock in stocks %}
+                    <li>
+                        <a href="/mercado/stock/{{ stock.symbol }}">
+                            {{ stock.name }} ({{ stock.symbol }})
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No results yet. Search something.</p>
+        {% endif %}
+    </div>
+</body>
+
+</html>
