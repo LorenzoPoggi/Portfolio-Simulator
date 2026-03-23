@@ -9,7 +9,7 @@
 
 <body>
     <div class="navbar">
-        <h1>Market Dashboard</h1>
+        <h1>Start Investing!</h1>
         <a href="/profile/me/personal-data">
             <button>My Profile</button>
         </a>
@@ -29,7 +29,7 @@
             <ul>
                 {% for stock in stocks %}
                     <li>
-                        <a href="/mercado/stock/{{ stock.symbol }}">
+                        <a href="/mercado/dashboard/{{ stock.symbol }}">
                             {{ stock.name }} ({{ stock.symbol }})
                         </a>
                     </li>

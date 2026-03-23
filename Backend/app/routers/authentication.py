@@ -83,7 +83,7 @@ async def login_form(response: Response, request: Request, email: str = Form(...
     user_data = User_Login(email=email, password=password)
     result = await login_user(user=user_data, db=db)
     access_token = result['access_token']
-    redirect = RedirectResponse(url='/profile/me/personal-data', status_code=303)
+    redirect = RedirectResponse(url='/mercado/dashboard', status_code=303)
     redirect.set_cookie(
         key= 'access_token', value= access_token, httponly= True, samesite= 'lax'
     )

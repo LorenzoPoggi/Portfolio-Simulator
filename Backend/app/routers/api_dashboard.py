@@ -13,7 +13,7 @@ import httpx
 
 # Inicializacion del Router
 router = APIRouter(tags=['Api Dashboard'], prefix='/mercado')
-router.mount("/static", StaticFiles(directory='../../Frontend/styles', html=True), name="static")
+router.mount('/static', StaticFiles(directory='../../Frontend/styles', html=True), name='static')
 templates = Jinja2Templates(directory='../../Frontend/templates/dashboard_templates')
 
 # ----------------------------------------------------
@@ -56,13 +56,54 @@ async def get_especific_symbol(symbol: str, user: User = Depends(current_user)):
 # -----------------------------------------------------------------
 
 # Adaptador entre HTML y API de las acciones extraidas
-
-# Adaptador entre HTML y API de la informacion de una accion en especifico 
+@router.post('/search-form', response_class= HTMLResponse)
+async def search_stock_form(request: Request, query: str = Form(...), user: User = Depends(current_user)):
+    try:
+        data = await busqueda_stock(query)
+        stocks = data ['data'] ['stock']
+        return templates.TemplateResponse(
+            'stock_dashboard.html',
+            {
+                'request' : request,
+                'stocks' : stocks
+            }
+        )
+    except Exception:
+        return templates.TemplateResponse(
+            'stock_dashboard.html',
+            {
+                'request': request,
+                'stocks': None,
+                'error': 'Data not found'
+            }
+        )
 
 # ----------------------------------------------------------------
 # Operaciones para las INTERFACES de las Cotizaciones del mercado
 # ----------------------------------------------------------------
 
 # Operacion para renderizar las acciones a una interfaz
+@router.get('/dashboard', response_class=HTMLResponse)
+async def dashboard_html(request: Request, user: User = Depends(current_user)):
+    return templates.TemplateResponse(
+        'stock_dashboard.html',
+        {
+            'request': request,
+            'stocks': None
+        }
+    )
 
 # Operacion para renderizar una accion en especifico a una interfaz 
+@router.get('/dashboard/{symbol}', response_class= HTMLResponse)
+async def dashboard_symbol_html(request: Request, symbol: str, user: User = Depends(current_user)):
+    try: 
+        data = await busqueda_symbol(symbol)
+        return templates.TemplateResponse(
+            'symbol_dashboard.html',
+            {
+                'request': request,
+                'stock': data['data']
+            }
+        )
+    except Exception:
+        return RedirectResponse('/mercado/dashboard?error=not_found', status_code=303)
