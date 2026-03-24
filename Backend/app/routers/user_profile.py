@@ -15,7 +15,7 @@ from schemas.user import *
 # Inicializacion del Router
 router = APIRouter(tags=['User Profile'], prefix='/profile')
 router.mount("/static", StaticFiles(directory='../../Frontend/styles', html=True), name="static")
-templates = Jinja2Templates(directory='../../Frontend/templates')
+templates = Jinja2Templates(directory='../../Frontend/templates/profiles')
 
 # ---------------------------------------------------------
 # Operaciones con la LOGICA para el Perfil de cada Usuario

@@ -14,7 +14,7 @@ import httpx
 # Inicializacion del Router
 router = APIRouter(tags=['Api Dashboard'], prefix='/mercado')
 router.mount("/static", StaticFiles(directory='../../Frontend/styles', html=True), name="static")
-templates = Jinja2Templates(directory='../../Frontend/templates/dashboard_templates')
+templates = Jinja2Templates(directory='../../Frontend/templates/dashboards')
 
 # ----------------------------------------------------
 # Operaciones CRUD para las Cotizaciones del mercado
@@ -62,7 +62,7 @@ async def search_stock_form(request: Request, query: str = Form(...), user: User
         data = await busqueda_stock(query)
         stocks = data ['data'] ['stock']
         return templates.TemplateResponse(
-            'stock_dashboard.html',
+            'stocks.html',
             {
                 'request' : request,
                 'stocks' : stocks
@@ -70,7 +70,7 @@ async def search_stock_form(request: Request, query: str = Form(...), user: User
         )
     except Exception:
         return templates.TemplateResponse(
-            'stock_dashboard.html',
+            'stocks.html',
             {
                 'request': request,
                 'stocks': None,
@@ -86,7 +86,7 @@ async def search_stock_form(request: Request, query: str = Form(...), user: User
 @router.get('/dashboard', response_class=HTMLResponse)
 async def dashboard_html(request: Request, user: User = Depends(current_user)):
     return templates.TemplateResponse(
-        'stock_dashboard.html',
+        'stocks.html',
         {
             'request': request,
             'stocks': None
@@ -99,7 +99,7 @@ async def dashboard_symbol_html(request: Request, symbol: str, user: User = Depe
     try: 
         data = await busqueda_symbol(symbol)
         return templates.TemplateResponse(
-            'symbol_dashboard.html',
+            'symbol.html',
             {
                 'request': request,
                 'stock': data['data']
