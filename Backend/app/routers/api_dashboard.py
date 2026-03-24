@@ -13,7 +13,7 @@ import httpx
 
 # Inicializacion del Router
 router = APIRouter(tags=['Api Dashboard'], prefix='/mercado')
-router.mount('/static', StaticFiles(directory='../../Frontend/styles', html=True), name='static')
+router.mount("/static", StaticFiles(directory='../../Frontend/styles', html=True), name="static")
 templates = Jinja2Templates(directory='../../Frontend/templates/dashboard_templates')
 
 # ----------------------------------------------------

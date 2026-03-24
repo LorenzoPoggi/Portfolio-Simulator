@@ -1,11 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>Stock Detail</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
+
 <body>
-    
+    <div class="stock">
+        <h1>{{ stock.name }} ({{ stock.symbol}})</h1>
+    </div>
+    <div class="value">
+        <h2>Price: ${{ stock.price }}</h2>
+        <p>Change: {{ stock.change }} ({{ stock.change_percent }}%)</p>
+    </div>
+    <div class="daily-data">
+        <h3>Daily Data</h3>
+        <p>Open: {{ stock.open }}</p>
+        <p>High: {{ stock.high }}</p>
+        <p>Low: {{ stock.low }}</p>
+        <p>Volume: {{ stock.volume }}</p>
+        <p>Previous Close: {{ stock.previous_close }}</p>
+    </div>
+    <div class="navigation">
+        <a href="/mercado/dashboard">
+            <button>Back to Dashboard</button>
+        </a>
+    </div>
 </body>
 </html>
