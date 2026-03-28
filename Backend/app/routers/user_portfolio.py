@@ -1,6 +1,9 @@
 # user_portfolio.py
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Request, Form
+from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 from database.models.models import *
 from core.security import *
 from services.api_external import busqueda_symbol
@@ -8,6 +11,12 @@ from schemas.stock import Stock_Purchase_Request, Stock_Purchase_Response
 
 # Inicializacion del Router
 router = APIRouter(tags=['Portfolio'])
+router.mount("/static", StaticFiles(directory='../../Frontend/styles', html=True), name="static")
+templates = Jinja2Templates(directory='../Frontend/templates/portfolios')
+
+# ------------------------------------------------------------
+# Operaciones con la LOGICA para la compra y venta de activos
+# ------------------------------------------------------------
 
 # Operacion para visualizar mi Portfolio
 @router.get('/miportfolio', response_model= list[Stock_Purchase_Response], status_code= status.HTTP_200_OK)
@@ -62,7 +71,7 @@ async def buy_stock (symbol: str, purchase: Stock_Purchase_Request, db: Session 
 
 # Operacion para "vender" una accion de mi Portfolio
 @router.delete('/miportfolio/{symbol}', status_code= status.HTTP_204_NO_CONTENT)
-async def delete_stock(symbol: str, user: User = Depends(current_user), db: Session = Depends(get_db)):
+async def sell_stock(symbol: str, user: User = Depends(current_user), db: Session = Depends(get_db)):
     stock = db.query(User_Portfolio).filter(User_Portfolio.symbol == symbol, User_Portfolio.user_id == user.id).first()
     if not stock:
         raise HTTPException(status_code= status.HTTP_404_NOT_FOUND,
@@ -70,3 +79,49 @@ async def delete_stock(symbol: str, user: User = Depends(current_user), db: Sess
     db.delete(stock)
     db.commit()
     return 'Accion vendida con éxito, puede seguir comprando.'
+
+# -------------------------------------------------------------------------
+# Operaciones para los ADAPTADORES de las Inversiones y de los Portafolios
+# -------------------------------------------------------------------------
+
+# Adaptador entre HTML y API para la compra de activos
+@router.post('/mercado/dashboard/buy-form/{symbol}', response_class= HTMLResponse)
+async def buy_stock_form(request: Request, purchase: Stock_Purchase_Request, quantity: int = Form(...), symbol: str = Form(...), 
+                         user: User = Depends(current_user), db: Session = Depends(get_db)):
+    try: 
+        await buy_stock(user=user, quantity=quantity, db=db) 
+        return templates.TemplateResponse(
+            'purchase.html',
+            {
+                'request': request,
+                'purchase': purchase
+            }
+        )
+    except Exception:
+        return RedirectResponse('/mercado/dashboard?error=bad_request', status_code=303)
+
+
+# Adaptador entre HTML y API para la venta de activos 
+@router.post('/miportfolio//sell-form/{symbol}', response_class= HTMLResponse)
+async def sell_stock_form(request: Request, symbol: str = Form (...), user: User = Depends(current_user), db: Session = Depends(get_db)):
+    await sell_stock(symbol=symbol, user=user, db=db)
+    return RedirectResponse('/miportfolio/actives?success=deleted', status_code=303)
+
+# ------------------------------------------------------------------------
+# Operaciones para las INTERFACES de las Inversiones y de los Portafolios
+# ------------------------------------------------------------------------
+
+# Operacion para renderizar a la Interfaz de los Portafolios 
+@router.get('/miportfolio/actives', response_class=HTMLResponse)
+async def view_my_portfolio_html(request: Request, user: User = Depends(current_user), db: Session = Depends(get_db)):
+    try:
+        portfolio = db.query(User_Portfolio).filter(User_Portfolio.user_id == user.id).all() 
+        return templates.TemplateResponse(
+            'user_portfolio.html',
+            {
+                'request': request,
+                'portfolio': portfolio
+            }
+        )
+    except Exception:
+        return RedirectResponse('/mercado/dashboard?error=not_found', status_code=303)
