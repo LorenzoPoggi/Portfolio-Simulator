@@ -86,26 +86,22 @@ async def sell_stock(symbol: str, user: User = Depends(current_user), db: Sessio
 
 # Adaptador entre HTML y API para la compra de activos
 @router.post('/mercado/dashboard/buy-form/{symbol}', response_class= HTMLResponse)
-async def buy_stock_form(request: Request, purchase: Stock_Purchase_Request, quantity: int = Form(...), symbol: str = Form(...), 
-                         user: User = Depends(current_user), db: Session = Depends(get_db)):
+async def buy_stock_form(symbol: str, quantity: int = Form(...), user: User = Depends(current_user), db: Session = Depends(get_db)):
     try: 
-        await buy_stock(user=user, quantity=quantity, db=db) 
-        return templates.TemplateResponse(
-            'purchase.html',
-            {
-                'request': request,
-                'purchase': purchase
-            }
-        )
+        purchase = Stock_Purchase_Request(quantity=quantity)
+        await buy_stock(symbol=symbol, purchase=purchase, user=user, db=db) 
+        return RedirectResponse('/miportfolio/actives?success=buy', status_code=303)
     except Exception:
         return RedirectResponse('/mercado/dashboard?error=bad_request', status_code=303)
 
-
 # Adaptador entre HTML y API para la venta de activos 
-@router.post('/miportfolio//sell-form/{symbol}', response_class= HTMLResponse)
-async def sell_stock_form(request: Request, symbol: str = Form (...), user: User = Depends(current_user), db: Session = Depends(get_db)):
-    await sell_stock(symbol=symbol, user=user, db=db)
-    return RedirectResponse('/miportfolio/actives?success=deleted', status_code=303)
+@router.post('/miportfolio/sell-form', response_class= HTMLResponse)
+async def sell_stock_form(symbol: str = Form (...), user: User = Depends(current_user), db: Session = Depends(get_db)):
+    try:
+        await sell_stock(symbol=symbol, user=user, db=db)
+        return RedirectResponse('/miportfolio/actives?success=sold', status_code=303)
+    except Exception:
+        return RedirectResponse('/miportfolio/actives?error=not_found', status_code=303)
 
 # ------------------------------------------------------------------------
 # Operaciones para las INTERFACES de las Inversiones y de los Portafolios
