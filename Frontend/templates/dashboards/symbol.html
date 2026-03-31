@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+    
 <head>
     <title>Stock Detail</title>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/style.css">
 </head>
 
@@ -22,7 +24,17 @@
         <p>Volume: {{ stock.volume }}</p>
         <p>Previous Close: {{ stock.previous_close }}</p>
     </div>
+    <div class="buy-stock">
+        {% if request.query_params.get("error") == "bad_request" %}
+            <p style="color:red;"> Unsuccessful Purchase, try again! </p>
+        {% endif %}
+        <form action="/mercado/dashboard/buy-form/{{ stock.symbol }}" method="post">
+            <input type="number" name="quantity" min="1" max="5" required>
+            <button type="submit">Buy Stock</button>
+        </form>
+    </div>
     <div class="navigation">
+        <h2>Market</h2>
         <a href="/mercado/dashboard">
             <button>Back to Dashboard</button>
         </a>

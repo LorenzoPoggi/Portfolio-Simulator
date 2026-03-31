@@ -8,11 +8,13 @@ from database.models.models import *
 from core.security import *
 from services.api_external import busqueda_symbol
 from schemas.stock import Stock_Purchase_Request, Stock_Purchase_Response
+from sqlalchemy.orm import Session
+from database.database import get_db
 
 # Inicializacion del Router
 router = APIRouter(tags=['Portfolio'])
 router.mount("/static", StaticFiles(directory='../../Frontend/styles', html=True), name="static")
-templates = Jinja2Templates(directory='../Frontend/templates/portfolios')
+templates = Jinja2Templates(directory='../../Frontend/templates/portfolios')
 
 # ------------------------------------------------------------
 # Operaciones con la LOGICA para la compra y venta de activos
@@ -78,7 +80,7 @@ async def sell_stock(symbol: str, user: User = Depends(current_user), db: Sessio
                             detail= 'Accion no encontrada en el Portfolio.')
     db.delete(stock)
     db.commit()
-    return 'Accion vendida con éxito, puede seguir comprando.'
+    return
 
 # -------------------------------------------------------------------------
 # Operaciones para los ADAPTADORES de las Inversiones y de los Portafolios

@@ -1,11 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <title>Portfolio</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
+
 <body>
-    
+    <div class="portfolio">
+        <h1>Portfolio</h1>
+        {% if request.query_params.get("success") == "buy" %}
+            <p style="color:green;"> Purchase Succesful! </p>
+        {% endif %}
+        {% if portfolio %}
+            <ul>
+                {% if request.query_params.get("success") == "sold" %}
+                    <p style="color:green;"> Sale Successful! </p>
+                {% endif %}
+
+                {% if request.query_params.get("error") == "not_found" %}
+                    <p style="color:red;"> Unsuccessful Sold, try again! </p>
+                {% endif %}
+
+                {% for stock in portfolio %}
+                    <li>
+                        <h3>Stock: {{ stock.symbol }}</p></h3>
+                        <p>Quantity: {{ stock.quantity }}</p>
+                        <p>Buy Price: {{ stock.buy_price }}</p>
+                        <p>Total Invested: {{ stock.total_invested }}</p>
+                        <p>Date: {{ stock.buy_date }}</p>
+
+                        <form action="/miportfolio/sell-form" method="post">
+                            <input type="hidden" name="symbol" value="{{ stock.symbol }}">
+                            <button type="submit">Sell Stock</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>You don't have investments yet</p>
+        {% endif %}
+    </div>
+    <div class="navigation">
+        <h2>Market</h2>
+        <a href="/mercado/dashboard">
+            <button>Back to Dashboard</button>
+        </a>
+        <h2>My Profile</h2>
+        <a href="/profile/me/personal-data">
+            <button>Profile</button>
+        </a>
+    </div>
 </body>
+ 
 </html>
