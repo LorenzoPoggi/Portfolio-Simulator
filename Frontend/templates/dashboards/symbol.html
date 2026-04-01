@@ -25,9 +25,11 @@
         <p>Previous Close: {{ stock.previous_close }}</p>
     </div>
     <div class="buy-stock">
+
         {% if request.query_params.get("error") == "bad_request" %}
             <p style="color:red;"> Unsuccessful Purchase, try again! </p>
         {% endif %}
+        
         <form action="/mercado/dashboard/buy-form/{{ stock.symbol }}" method="post">
             <input type="number" name="quantity" min="1" max="5" required>
             <button type="submit">Buy Stock</button>

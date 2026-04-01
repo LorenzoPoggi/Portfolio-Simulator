@@ -11,19 +11,20 @@
 <body>
     <div class="portfolio">
         <h1>Portfolio</h1>
+
         {% if request.query_params.get("success") == "buy" %}
             <p style="color:green;"> Purchase Succesful! </p>
         {% endif %}
+        {% if request.query_params.get("success") == "sold" %}
+            <p style="color:green;"> Sale Successful! </p>
+        {% endif %}
+
+        {% if request.query_params.get("error") == "not_found" %}
+            <p style="color:red;"> Unsuccessful Sold, try again! </p>
+        {% endif %}
+
         {% if portfolio %}
             <ul>
-                {% if request.query_params.get("success") == "sold" %}
-                    <p style="color:green;"> Sale Successful! </p>
-                {% endif %}
-
-                {% if request.query_params.get("error") == "not_found" %}
-                    <p style="color:red;"> Unsuccessful Sold, try again! </p>
-                {% endif %}
-
                 {% for stock in portfolio %}
                     <li>
                         <h3>Stock: {{ stock.symbol }}</p></h3>
