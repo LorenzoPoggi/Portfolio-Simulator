@@ -11,6 +11,11 @@
 <body>
     <div class="Register">
         <h1 class="register-title">Create an account to start investing!</h1>
+
+        {% if request.query_params.get("error") == "repeated_email" %}
+            <p style="color: red;">Email already registered, Login!</p>
+        {% endif %}
+
         <form action="/authentication/register-form" method="post">
             <input type="text" name="fullname" placeholder="Fullname" required>
             <input type="email" name="email" placeholder="Email" required>

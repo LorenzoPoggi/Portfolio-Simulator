@@ -2,7 +2,6 @@
 
 from fastapi import APIRouter, Depends, status, Request, Form, Response
 from fastapi.responses import HTMLResponse, RedirectResponse
-from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from database.database import get_db
@@ -15,7 +14,6 @@ from schemas.token import Login_Response
 
 # Inicializacion del Router y Templates
 router = APIRouter(tags=['Authentication'], prefix='/authentication')
-router.mount("/static", StaticFiles(directory='../../Frontend/styles', html=True), name="static")
 templates = Jinja2Templates(directory='../../Frontend/templates/authentications')
 
 # ----------------------------------------------------
@@ -69,8 +67,11 @@ async def logout():
 @router.post('/register-form')
 async def register_form(request: Request, email: str = Form(...), password: str = Form(...), fullname: str = Form(...), db: Session = Depends(get_db)):
     user_data = User_Register(email=email, password=password, fullname=fullname)
-    await register_user(user=user_data, db=db)
-    return RedirectResponse('/authentication/login?success=registered', status_code=303)
+    try:
+        await register_user(user=user_data, db=db)
+        return RedirectResponse('/authentication/login?success=registered', status_code=303)
+    except Exception:
+        return RedirectResponse('/authentication/register?error=repeated_email', status_code=303)
 
 # Adaptador entre HTML y API del login 
 @router.post('/login-form')

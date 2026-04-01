@@ -2,7 +2,6 @@
 
 from fastapi import APIRouter, Depends, status, Request, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
-from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from database.database import get_db
@@ -14,7 +13,6 @@ from schemas.user import *
 
 # Inicializacion del Router
 router = APIRouter(tags=['User Profile'], prefix='/profile')
-router.mount("/static", StaticFiles(directory='../../Frontend/styles', html=True), name="static")
 templates = Jinja2Templates(directory='../../Frontend/templates/profiles')
 
 # ---------------------------------------------------------

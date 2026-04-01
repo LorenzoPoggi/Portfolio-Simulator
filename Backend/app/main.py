@@ -1,7 +1,9 @@
 # main.py
 
-from fastapi import FastAPI
-from sqlalchemy.orm import Session
+from fastapi import FastAPI, Request
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 from dotenv import load_dotenv
 from database.database import Base, engine, get_db
 from routers.authentication import router as router_authentication
@@ -22,6 +24,18 @@ load_dotenv()
 
 # Inicializacion de la Base de Datos
 Base.metadata.create_all(bind = engine)
+
+# Inicializacion de Estilos 
+app.mount("/static", StaticFiles(directory='../../Frontend/styles', html=True), name="static")
+
+# Inicializacion del Template Principal
+principal_template = Jinja2Templates(directory='../../Frontend/templates')
+ 
+@app.get('/', response_class= HTMLResponse)
+async def index_html(request: Request):
+    return principal_template.TemplateResponse(
+        request= request, name= 'index.html'
+    )
 
 # Inicializacion de los Routers
 app.include_router(router_authentication)

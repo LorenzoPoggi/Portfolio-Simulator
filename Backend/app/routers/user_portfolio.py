@@ -2,7 +2,6 @@
 
 from fastapi import APIRouter, Depends, HTTPException, status, Request, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
-from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from database.models.models import *
 from core.security import *
@@ -13,7 +12,6 @@ from database.database import get_db
 
 # Inicializacion del Router
 router = APIRouter(tags=['Portfolio'])
-router.mount("/static", StaticFiles(directory='../../Frontend/styles', html=True), name="static")
 templates = Jinja2Templates(directory='../../Frontend/templates/portfolios')
 
 # ------------------------------------------------------------
