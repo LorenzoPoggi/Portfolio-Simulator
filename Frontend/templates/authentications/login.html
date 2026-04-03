@@ -10,7 +10,7 @@
 
 <body>
     <div class="Login">
-        <h1 class="login-title">Welcome back!</h1>
+        <h1 class="login-title">Welcome back! Let's keep your Equity growing.</h1>
 
         {% if request.query_params.get("error") == "user_not_found" %}
             <p style="color: red;">User doesn't exist!</p>
@@ -29,12 +29,12 @@
 
         <div class="form">
             <form action="/authentication/login-form" method="post">
-                <input type="email" name="email" placeholder="Email" required>
-                <input type="password" name="password" placeholder="Password" required>
+                <input type="email" name="email" placeholder="Enter your Email" required>
+                <input type="password" name="password" placeholder="Enter your Password" required>
                 <button type="submit">Login</button>
             </form>
         </div>
-        <p>Don’t have an account? <a href="/authentication/register">Register here</a></p>
+        <p>Don’t have an account? <a href="/authentication/register", class="here">Register here</a></p>
     </div>
 </body>
 

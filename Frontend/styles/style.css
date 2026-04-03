@@ -39,14 +39,6 @@ input:focus {
     border-color: #7577cb;
 }
 
-.Index, .Login, .Register {
-    background-color: #2a2a40;
-    padding: 20px;
-    border-radius: 10px;
-    width: 300px;
-    margin: 100px auto;
-}
-
 .form {
     display: flex;
     flex-direction: column;
@@ -58,4 +50,95 @@ form {
     flex-direction: column;
     gap: 15px;
     margin-top: 20px;
+}
+
+/* Estilos para Index y Authentications */
+
+.Index, .Login, .Register {
+    background-color: #2a2a40;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    margin: 100px auto;
+}
+
+.here {
+    color: #7577cb;
+}
+
+.here:hover {
+    color: #a3a5ee;
+}
+
+/* Estilos para Dashboards */
+
+.Stock {
+    background-color: #2a2a40;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+    margin: 100px auto;
+}
+
+.results-section {
+    background-color: white;
+    color: #1e1e2f;
+    padding: 10px;
+    border-radius: 10px;
+    width: 350px;
+    margin: 50px auto;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    margin: 10px 0;
+}
+
+.Symbol {
+    background-color: #2a2a40;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+    margin: 100px auto;
+}
+
+.positive {
+    color: green;
+}
+
+.negative {
+    color: red;
+}
+
+/* Estilos para Portfolios */
+
+.Portfolios {
+    background-color: #2a2a40;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+    margin: 100px auto;
+}
+
+.results-purchase {
+    background-color: white;
+    color: #1e1e2f;
+    padding: 10px;
+    border-radius: 10px;
+    width: 350px;
+    margin: 50px auto;
+}
+
+/* Estilos para Profiles */
+
+.Profiles {
+    background-color: #2a2a40;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+    margin: 100px auto;
 }

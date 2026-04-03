@@ -9,37 +9,41 @@
 </head>
 
 <body>
-    <div class="stock">
-        <h1>{{ stock.name }} ({{ stock.symbol}})</h1>
-    </div>
-    <div class="value">
-        <h2>Price: ${{ stock.price }}</h2>
-        <p>Change: {{ stock.change }} ({{ stock.change_percent }}%)</p>
-    </div>
-    <div class="daily-data">
-        <h3>Daily Data</h3>
-        <p>Open: {{ stock.open }}</p>
-        <p>High: {{ stock.high }}</p>
-        <p>Low: {{ stock.low }}</p>
-        <p>Volume: {{ stock.volume }}</p>
-        <p>Previous Close: {{ stock.previous_close }}</p>
-    </div>
-    <div class="buy-stock">
+    <div class="Symbol">
+        <div class="stock">
+            <h1>{{ stock.name }} ({{ stock.symbol}})</h1>
+        </div>
+        <div class="value">
+            <h2>Price: ${{ stock.price }}</h2>
+            <p class="{% if stock.change > 0 %}positive{% else %}negative{% endif %}">
+                Change: {{ stock.change }} ({{ stock.change_percent }}%)
+            </p>
+        </div>
+        <div class="daily-data">
+            <h3>Daily Data</h3>
+            <p>Open: {{ stock.open }}</p>
+            <p>High: {{ stock.high }}</p>
+            <p>Low: {{ stock.low }}</p>
+            <p>Volume: {{ stock.volume }}</p>
+            <p>Previous Close: {{ stock.previous_close }}</p>
+        </div>
+        <div class="buy-stock">
 
-        {% if request.query_params.get("error") == "bad_request" %}
-            <p style="color:red;"> Unsuccessful Purchase, try again! </p>
-        {% endif %}
-        
-        <form action="/mercado/dashboard/buy-form/{{ stock.symbol }}" method="post">
-            <input type="number" name="quantity" min="1" max="5" required>
-            <button type="submit">Buy Stock</button>
-        </form>
-    </div>
-    <div class="navigation">
-        <h2>Market</h2>
-        <a href="/mercado/dashboard">
-            <button>Back to Dashboard</button>
-        </a>
+            {% if request.query_params.get("error") == "bad_request" %}
+                <p style="color:red;"> Unsuccessful Purchase, try again! </p>
+            {% endif %}
+            
+            <form action="/mercado/dashboard/buy-form/{{ stock.symbol }}" method="post">
+                <input type="number" name="quantity" min="1" max="5" placeholder="Minimum 1 and Maximum 5" required>
+                <button type="submit">Buy Stock</button>
+            </form>
+        </div>
+        <div class="navigation">
+            <h2>🏦 Market 🏦</h2>
+            <a href="/mercado/dashboard">
+                <button>Back to Dashboard</button>
+            </a>
+        </div>
     </div>
 </body>
 </html>
