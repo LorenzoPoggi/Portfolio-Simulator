@@ -1,6 +1,7 @@
 # config.py
 
 from passlib.context import CryptContext
+import os
 
 # ----------------------------------------------------
 # Algoritmo de Encriptación y Tocken de Acceso
@@ -8,5 +9,5 @@ from passlib.context import CryptContext
 
 ALGORITHM = "HS256"
 ACCESS_TOKEN_DURATION = 30
-SECRET_KEY = 'e2cadd35402cb270f7c256664f62b610dd9199c964a9fb616aef05f9a8ac5494'
+SECRET_KEY = os.getenv("SECRET_KEY")
 crypt = CryptContext(schemes="bcrypt")
