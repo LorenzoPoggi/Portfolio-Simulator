@@ -1,0 +1,20 @@
+# Dependencias para el Uso del Proyecto
+
+fastapi==0.125.0
+uvicorn==0.38.0
+starlette==0.46.2
+
+pydantic==2.12.3
+sqlalchemy==2.0.44
+
+python-jose==3.5.0
+passlib==1.7.4
+bcrypt==4.0.1
+
+python-multipart==0.0.20
+Jinja2==3.1.6
+
+python-dotenv==1.1.1
+
+requests==2.32.5
+email-validator==2.3.0s
