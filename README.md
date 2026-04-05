@@ -69,7 +69,8 @@ Este proyecto se basa en un MVP de un Simulador de Portfolio, el cual tiene el o
 │       └── index.html
 │   
 ├── LICENSE
-└── README.md
+├── README.md
+└── requirements.txt
 ```
 
 ---
