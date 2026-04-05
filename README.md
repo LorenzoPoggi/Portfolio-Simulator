@@ -96,7 +96,7 @@ Este proyecto se basa en un MVP de un Simulador de Portfolio, el cual tiene el o
 - Hashing de Contraseñas con Passlib (CryptContext)
 
 #### Conexión con una API Externa 
-- Conexion y Acceso a Datos Financieros de la API "Real'Time Finance Data" 
+- Conexion y Acceso a Datos Financieros de la API "Real-Time Finance Data" 
 - Visualizacion de Informacion Detallada por Activo
 
 #### Operaciones de un Broker Digital
