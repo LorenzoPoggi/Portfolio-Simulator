@@ -17,4 +17,4 @@ Jinja2==3.1.6
 python-dotenv==1.1.1
 
 requests==2.32.5
-email-validator==2.3.0s
+email-validator==2.3.0
