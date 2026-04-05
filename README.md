@@ -46,7 +46,9 @@ Este proyecto se basa en un MVP de un Simulador de Portfolio, el cual tiene el o
 │   │   │
 │   │   └── main.py
 │   │   
-│   └── .gitignore
+│   ├── .gitignore
+│   ├── requirements.txt
+│   └── vercel.json
 │   
 ├── Frontend
 │   │
@@ -69,8 +71,7 @@ Este proyecto se basa en un MVP de un Simulador de Portfolio, el cual tiene el o
 │       └── index.html
 │   
 ├── LICENSE
-├── README.md
-└── requirements.txt
+└── README.md
 ```
 
 ---
