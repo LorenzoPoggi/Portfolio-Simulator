@@ -11,7 +11,7 @@ Este proyecto se basa en un MVP de un Simulador de Portfolio, el cual tiene el o
 - Simulacion de un Portafolio de Inversiones
 
 ---
-### 🌳 Estructua del Repositorio
+### 🌳 Estructura del Repositorio
 
 ```
 ├── Backend
