@@ -25,10 +25,10 @@
             {% endif %}
             <div class="results-purchase">
                 {% if portfolio %}
-                    <ul>
+                    <ul class="flexbox">
                         {% for stock in portfolio %}
                             <li>
-                                <h3>Stock: {{ stock.symbol }}</p></h3>
+                                <h3>Stock: {{ stock.symbol }}</h3>
                                 <p>Quantity: {{ stock.quantity }}</p>
                                 <p>Buy Price: {{ stock.buy_price }}</p>
                                 <p>Total Invested: {{ stock.total_invested }}</p>
