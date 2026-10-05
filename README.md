@@ -1,155 +1,118 @@
-# 📊 Portfolio-Simulator
+# 📊 Portfolio Simulator
 
-### 📖 Introduccion 
+Este proyecto se basa en un MVP de un Simulador de Portfolio, el cual tiene el objetivo de simular la mayoria de operaciones que se pueden hacer dentro de un broker digital. 
 
-Este proyecto se basa en un MVP de un Simulador de Portfolio, el cual tiene el objetivo de simular la mayoria de operaciones que se pueden hacer dentro de un broker digital. Las principales funciones que tiene esta aplicación son:
+Está construido con FastAPI, SQLAlchemy, SQLite y templates HTML con Jinja2. Permite registrar usuarios, iniciar sesión, consultar activos financieros y simular compras y ventas.
 
-- Registro de Usuarios 
-- Configuracion de Datos Personales de cada Usuario
-- Busqueda de Activos y Obtencion de sus Datos Financieros
-- Compra y Ventas de Activos
-- Simulacion de un Portafolio de Inversiones
+## Estructura
 
----
-### 🌳 Estructura del Repositorio
-
-```
-├── Backend
-│   │
-│   ├── app
-│   │   │
-│   │   ├── core
-│   │   │   ├── config.py
-│   │   │   ├── exceptions.py
-│   │   │   └── security.py
-│   │   │   
-│   │   ├── database
-│   │   │   ├── models
-│   │   │   │   └── models.py
-│   │   │   ├── database.py
-│   │   │   └── sqlalchemy.db
-│   │   │
-│   │   ├── routers
-│   │   │   ├── api_dashboard.py
-│   │   │   ├── authentication.py
-│   │   │   ├── user_portfolio.py
-│   │   │   └── user_profile.py
-│   │   │
-│   │   ├── schemas
-│   │   │   ├── portfolio.py
-│   │   │   ├── stock.py
-│   │   │   ├── token.py
-│   │   │   └── user.py
-│   │   │
-│   │   ├── services
-│   │   │   └── api_external.py
-│   │   │
-│   │   └── main.py
-│   │   
-│   └── .gitignore
-│   
-├── Frontend
-│   │
-│   ├── styles
-│   │   │
-│   │   └── style.css
-│   │   
-│   └── templates
-│       │
-│       ├── authentications
-│       │   ├── login.html
-│       │   └── register.html
-│       ├── dashboards
-│       │   ├── stocks.html
-│       │   └── symbol.html
-│       ├── portfolios
-│       │   └── user_portfolio.html
-│       ├── profiles
-│       │   └── user_profile.html
-│       └── index.html
-│   
-├── LICENSE
-├── README.md
+```text
+├── Backend/
+│   ├── app/
+│   │   ├── core/       # Configuración, seguridad y errores
+│   │   ├── database/   # Conexión SQLite y modelos SQLAlchemy
+│   │   ├── routers/    # Rutas de autenticación, perfil, mercado y portfolio
+│   │   ├── schemas/    # Validación de datos con Pydantic
+│   │   ├── services/   # Integración con la API financiera
+│   │   └── main.py     # Aplicación FastAPI
+│   └── .env            # Configuración local (la crea cada usuario; no subir a Git)
+├── Frontend/
+│   ├── styles/         # Estilos de los Templates
+│   └── templates/      # Páginas Jinja2
 ├── requirements.txt
-└── vercel.json
+└── README.md
 ```
 
----
-### 📚 Funcionalidades 
+## Requisitos
 
-#### Backend
-- API REST completa construida con FastAPI
-- ORM con SQLAlchemy para la creacion de Base de Datos 
-- Arquitectura Organizada (Core, Database, Routers, Schemas, Services)
+- Python 3.10 o posterior.
+- `pip` (incluido normalmente con Python).
+- Una clave de Real-Time Finance Data en RapidAPI solo si quieres usar la búsqueda y consulta de cotizaciones. La portada, el registro y el inicio de sesión no necesitan esa API.
 
-#### Frontend
-- Templates basicos construidos con HTML 
-- Estilos basicos hechos con CSS
-- Renderizacion de Templates con Jinja2 que muestras datos recibidos del Back
+## Clonar e instalar
 
-#### Base de Datos
-- Modelos de entidades con SQLAlchemy
-- Validación de Datos con Pydantic
+Clona el repositorio y entra a su raíz:
 
-#### Autenticaión y Seguridad
-- Registro y Login de Usuarios
-- Generación de Tokens JWT
-- Proteccion de Rutas Privadas
-- Hashing de Contraseñas con Passlib (CryptContext)
-
-#### Conexión con una API Externa 
-- Conexion y Acceso a Datos Financieros de la API "Real-Time Finance Data" 
-- Visualizacion de Informacion Detallada por Activo
-
-#### Operaciones de un Broker Digital
-- Simulacion de Compra y Venta de Activos 
-- Conexion de cada Portafolio por Usuario en la Base de Datos 
-- Visualizacion de Portafolio
-
----
-
-### 🚀 Guia de Uso
-
-#### Clonar el repositorio
-
-```
+```bash
 git clone https://github.com/LorenzoPoggi/Portfolio-Simulator.git
 cd Portfolio-Simulator
 ```
 
-#### Crear un Entortno Virtual 
+Crea un entorno virtual:
 
-```
-python -m venv venv
-# Windows
-venv\Scripts\activate
-# Lix/Mac
-source venv/bin/activate
+```bash
+python -m venv .venv
 ```
 
-#### Instalar Independencias
+Actívalo usando el comando correspondiente a tu terminal:
 
-```
-pip install -r requirements.txt
+```bash
+# macOS / Linux (bash o zsh)
+source .venv/bin/activate
+
+# Windows PowerShell
+.venv\Scripts\Activate.ps1
+
+# Windows Command Prompt (CMD)
+.venv\Scripts\activate.bat
 ```
 
-#### Agregar Variables de Entorno
+En Windows, si `python` no está disponible, prueba `py`. Instala las dependencias:
 
-```
-cd Backend
-touch .env 
-# Agregar SECRET_KEY y FINANCE_API_KEY
+```bash
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
 ```
 
-#### Ejecutar la Aplicación
+## Variables de entorno
 
+La app necesita `SECRET_KEY` para firmar los tokens de inicio de sesión. Las tres variables `FINANCE_*` habilitan las búsquedas de acciones. Puedes crear `Backend/.env` con un editor de texto; no hace falta que el archivo esté versionado.
+
+Contenido de ejemplo:
+
+```dotenv
+SECRET_KEY=pon_aqui_un_valor_aleatorio_largo
+FINANCE_API_KEY=tu_clave_de_rapidapi
+FINANCE_API_HOST=real-time-finance-data.p.rapidapi.com
+FINANCE_BASE_URL=https://real-time-finance-data.p.rapidapi.com
 ```
-cd app
+
+Genera tu propia `SECRET_KEY`; no uses una clave publicada en ejemplos o compartida por otra persona. No subas `Backend/.env` a Git. Si no configuras la API financiera, la aplicación puede arrancar y podrás probar las páginas de bienvenida, registro e inicio de sesión; la búsqueda y las cotizaciones no estarán disponibles.
+
+## Crear una base local vacía
+
+El proyecto usa SQLite, así que no hace falta instalar ni ejecutar un servidor de base de datos. Desde la raíz del repositorio ejecuta:
+
+```bash
+python -c "from pathlib import Path; Path('Backend/app/database').mkdir(parents=True, exist_ok=True)"
+```
+
+Esto solo crea el directorio donde SQLite espera guardar el archivo. La app crea las tablas cuando arranca. Si ya existe `Backend/app/database/sqlalchemy.db`, la app reutiliza esa base; para una prueba completamente limpia, clona el repositorio en otra carpeta (no borres una base que quieras conservar).
+
+## Ejecutar la aplicación
+
+Los imports y las rutas de templates/estilos actuales esperan que el directorio de trabajo sea `Backend/app`. Desde la raíz del repositorio:
+
+```bash
+cd Backend/app
+python -m fastapi dev main.py
+```
+
+También puedes usar el ejecutable `fastapi` si está disponible en tu entorno virtual:
+
+```bash
 fastapi dev main.py
 ```
 
-#### Ingresar a la Web
+Abre <http://127.0.0.1:8000>. La documentación interactiva de la API está en <http://127.0.0.1:8000/docs>. Para detener el servidor, vuelve a la terminal y presiona `Ctrl+C`.
 
-```
-http://127.0.0.1:8000
-```
+## Solución de problemas
+
+- **`ModuleNotFoundError` al iniciar:** confirma que activaste el entorno virtual, instalaste `requirements.txt` y ejecutaste el comando desde `Backend/app`.
+- **No carga el CSS o una plantilla:** comprueba que sigues en `Backend/app` al iniciar; las rutas de recursos están escritas respecto a ese directorio.
+- **Error al conectarse a la API financiera:** revisa `FINANCE_API_KEY`, `FINANCE_API_HOST` y `FINANCE_BASE_URL` en `Backend/.env`, además de que tu clave y plan de RapidAPI permitan llamar a Real-Time Finance Data.
+- **No se crea SQLite:** crea `Backend/app/database` con el comando anterior y comprueba que tienes permiso de escritura en la carpeta del proyecto.
+
+## Dependencias principales
+
+`requirements.txt` declara las dependencias de la app, incluyendo FastAPI/Uvicorn, SQLAlchemy/SQLite, autenticación, templates y el cliente `httpx` con `tenacity` para llamadas y reintentos a la API financiera.

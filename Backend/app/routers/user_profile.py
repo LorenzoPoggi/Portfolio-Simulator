@@ -19,12 +19,6 @@ templates = Jinja2Templates(directory='../../Frontend/templates/profiles')
 # Operaciones con la LOGICA para el Perfil de cada Usuario
 # ---------------------------------------------------------
 
-# Operacion para la visualizacion de todos los usuarios 
-@router.get('/users', response_model=list[User_Response], status_code= status.HTTP_200_OK)
-async def view_users(db: Session = Depends(get_db)):
-    db_users = db.query(User).all()
-    return db_users
-
 # Operacion para la visualizacion de datos personales de un usuario
 @router.get('/me', response_model= User_Response, status_code= status.HTTP_200_OK)
 async def view_my_user(user: User = Depends(current_user)):
